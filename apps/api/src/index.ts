@@ -7,7 +7,12 @@ const PORT = process.env.PORT || 3000
 
 // CORS — permite peticiones desde el frontend en desarrollo
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5000'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5000',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5000',  
+  ],
   credentials: true,
 }))
 
