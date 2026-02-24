@@ -1,8 +1,15 @@
 import express, { Application, Request, Response } from 'express'
+import cors from 'cors'
 import contactsRouter from './routes/contacts.routes'
 
 const app: Application = express()
 const PORT = process.env.PORT || 3000
+
+// CORS — permite peticiones desde el frontend en desarrollo
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:5000'],
+  credentials: true,
+}))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -25,4 +32,3 @@ app.listen(PORT, () => {
 })
 
 export default app
-
