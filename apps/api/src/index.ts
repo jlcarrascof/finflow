@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express'
+import contactsRouter from './routes/contacts.routes'
 
 const app: Application = express()
 const PORT = process.env.PORT || 3000
@@ -6,7 +7,10 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Health check — primer endpoint del API
+// Rutas
+app.use('/contacts', contactsRouter)
+
+// Health check
 app.get('/health', (_req: Request, res: Response) => {
   res.json({
     status: 'ok',
@@ -21,3 +25,4 @@ app.listen(PORT, () => {
 })
 
 export default app
+
