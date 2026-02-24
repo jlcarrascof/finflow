@@ -1,8 +1,7 @@
 import { Router, Request, Response } from 'express'
 
-const router = Router()
+const router: Router = Router()
 
-// Tipo local temporal — se reemplaza por @finflow/types en Unidad III
 interface Contact {
   id: number
   name: string
@@ -13,7 +12,6 @@ interface Contact {
   updatedAt: string
 }
 
-// Datos mock — se reemplazarán por Prisma en Unidad III
 const mockContacts: Contact[] = [
   {
     id: 1,
@@ -35,9 +33,9 @@ const mockContacts: Contact[] = [
   },
 ]
 
-// GET /contacts
 router.get('/', (_req: Request, res: Response) => {
   res.json(mockContacts)
 })
 
 export default router
+
