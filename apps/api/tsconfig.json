@@ -8,7 +8,10 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@finflow/types": ["../../packages/types/src/index.ts"]
+      "@finflow/types": [
+          "../../packages/types/src/index.ts",
+          "./packages/types/src/index.ts"
+        ]
     },
 
     "esModuleInterop": true,
@@ -28,7 +31,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "../../packages/types/src/**/*.ts"
+    "../../packages/types/src/**/*.ts",
+    "./packages/types/src/**/*.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
