@@ -20,8 +20,8 @@ services:
 
   api:
     build:
-      context: ./apps/api
-      dockerfile: Dockerfile
+      context: .                        # ← CAMBIA: era ./apps/api, ahora raíz del monorepo
+      dockerfile: apps/api/Dockerfile   # ← CAMBIA: ruta explícita al Dockerfile
     container_name: finflow-api
     restart: unless-stopped
     ports:

@@ -12,8 +12,10 @@ WORKDIR /app
 # Copiar solo los archivos de dependencias primero
 # Docker cachea esta capa — si no cambia package.json,
 # no reinstala dependencias en el próximo build
-COPY package.json ./
-COPY tsconfig.json ./
+
+# Las rutas ahora son relativas a la raíz del monorepo
+COPY apps/api/package.json ./
+COPY apps/api/tsconfig.json ./
 
 # Instalar SOLO dependencias de producción + las de build
 RUN pnpm install
