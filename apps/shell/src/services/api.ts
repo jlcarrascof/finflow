@@ -2,27 +2,30 @@ import axios from 'axios'
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import type { ApiError } from '@finflow/types'
 
-// Instancia central de Axios
+// Referencia al token — se actualiza desde el store
+// Patrón: el store llama a setApiToken() al hacer login/refresh
+let _accessToken: string | null = null
+
+export function setApiToken(token: string | null) {
+  _accessToken = token
+}
+
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3000',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
   timeout: 10_000,
+  withCredentials: true,    // ← envía httpOnly cookie en /auth/refresh y /auth/logout
 })
 
-// ── Interceptor de REQUEST ──────────────────────────────────────────────────
-// Adjunta el token JWT a cada petición automáticamente
+// ── Interceptor de REQUEST ────────────────────────────────────────────────
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem('access_token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+  if (_accessToken) {
+    config.headers.Authorization = `Bearer ${_accessToken}`
   }
   return config
 })
 
-// ── Interceptor de RESPONSE ─────────────────────────────────────────────────
-// Normaliza los errores a la forma ApiError para toda la app
+// ── Interceptor de RESPONSE ───────────────────────────────────────────────
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error) => {
