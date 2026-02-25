@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { AuthUser, AuthTokens } from '@finflow/types'
+import { setApiToken } from '@/services/api'   // ← agregar este import
+
 
 export const useAuthStore = defineStore('auth', () => {
   // ── Estado ────────────────────────────────────────────────────────────────
@@ -16,15 +18,18 @@ export const useAuthStore = defineStore('auth', () => {
   function setAuth(tokens: AuthTokens, authUser: AuthUser) {
     accessToken.value = tokens.accessToken
     user.value = authUser
+    setApiToken(tokens.accessToken)
   }
 
   function setAccessToken(tokens: AuthTokens) {
     accessToken.value = tokens.accessToken
+    setApiToken(tokens.accessToken)
   }
 
   function clearAuth() {
     accessToken.value = null
     user.value = null
+    setApiToken(null)
   }
 
   function getAccessToken(): string | null {
