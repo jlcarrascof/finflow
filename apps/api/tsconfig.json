@@ -5,7 +5,6 @@
     "module": "CommonJS",
     "moduleResolution": "node",
 
-    "rootDir": ".",
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
