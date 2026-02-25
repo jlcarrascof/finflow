@@ -1,37 +1,38 @@
 {
   "compilerOptions": {
-    /* Target — compilamos a Node.js 20+ */
     "target": "ES2022",
     "lib": ["ES2022"],
     "module": "CommonJS",
     "moduleResolution": "node",
 
-    /* Rutas */
-    "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@finflow/types": ["../../packages/types/src/index.ts"]
+      "@finflow/types": [
+          "../../packages/types/src/index.ts",
+          "./packages/types/src/index.ts"
+        ]
     },
 
-    /* Interop */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
 
-    /* Producción */
     "noEmit": false,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
 
-    /* Linting estricto */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "../../packages/types/src/**/*.ts",
+    "./packages/types/src/**/*.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }
