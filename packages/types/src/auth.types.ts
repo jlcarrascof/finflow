@@ -17,15 +17,14 @@ export interface AuthUser {
 
 // ── NUEVOS ──────────────────────────────────────────────
 export interface RefreshTokenDto {
-  // El refresh token llega desde httpOnly cookie, no en el body
-  // Este DTO se usa solo para tipar la respuesta del guard
   refreshToken: string
 }
 
-export interface JwtPayload {
-  sub: number        // userId
+// Renombrar para evitar colisión con JwtPayload de @types/jsonwebtoken
+export interface FinFlowJwtPayload {
+  sub: number
   email: string
   role: 'admin' | 'user'
-  iat?: number       // issued at (lo agrega jsonwebtoken automáticamente)
-  exp?: number       // expiration (lo agrega jsonwebtoken automáticamente)
+  iat?: number
+  exp?: number
 }

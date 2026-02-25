@@ -1,7 +1,7 @@
 // apps/api/src/services/auth.service.ts
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import type { LoginDto, AuthTokens, AuthUser, JwtPayload } from '@finflow/types'
+import type { LoginDto, AuthTokens, AuthUser, FinFlowJwtPayload } from '@finflow/types'
 
 // ── Mock users (se reemplaza con Prisma en Unidad III) ──────────────────────
 interface MockUser {
@@ -85,13 +85,13 @@ export const authService = {
     return { tokens, user, refreshToken }
   },
 
-  verifyAccessToken(token: string): JwtPayload {
-    return jwt.verify(token, JWT_SECRET) as JwtPayload
+  verifyAccessToken(token: string): FinFlowJwtPayload {
+    return jwt.verify(token, JWT_SECRET) as unknown as FinFlowJwtPayload
   },
 
   refreshAccessToken(refreshToken: string): AuthTokens {
     // 1. Verificar refresh token
-    const payload = jwt.verify(refreshToken, JWT_SECRET) as JwtPayload
+    const payload = jwt.verify(refreshToken, JWT_SECRET) as unknown as FinFlowJwtPayload
 
     // 2. Buscar usuario para reconstruir AuthUser actualizado
     const found = mockUsers.find(u => u.id === payload.sub)
