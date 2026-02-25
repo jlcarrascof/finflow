@@ -7,7 +7,7 @@
     "moduleResolution": "node",
 
     /* Rutas */
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
