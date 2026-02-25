@@ -37,7 +37,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN ?? '15m'
 const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN ?? '7d'
 
 function generateAccessToken(user: AuthUser): AuthTokens {
-  const payload: JwtPayload = {
+  const payload: FinFlowJwtPayload = {
     sub: user.id,
     email: user.email,
     role: user.role,
