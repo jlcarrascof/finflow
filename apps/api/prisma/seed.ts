@@ -67,7 +67,7 @@ async function main() {
   // ── Facturas con líneas ───────────────────────────────
   const invoice1 = await prisma.invoice.create({
     data: {
-      number: 'FAC-000001',
+      number: 'FAC-0000001',
       status: InvoiceStatus.paid,
       dueDate: new Date('2026-03-01'),
       userId: admin.id,
@@ -92,7 +92,7 @@ async function main() {
 
   const invoice2 = await prisma.invoice.create({
     data: {
-      number: 'FAC-000002',
+      number: 'FAC-0000002',
       status: InvoiceStatus.sent,
       dueDate: new Date('2026-03-15'),
       userId: admin.id,
@@ -111,7 +111,7 @@ async function main() {
 
   const invoice3 = await prisma.invoice.create({
     data: {
-      number: 'FAC-000003',
+      number: 'FAC-0000003',
       status: InvoiceStatus.draft,
       dueDate: new Date('2026-04-01'),
       userId: user.id,
