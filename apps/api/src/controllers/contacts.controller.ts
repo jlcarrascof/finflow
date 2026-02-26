@@ -3,7 +3,7 @@ import { ContactsService } from '../services/contacts.service'
 import { CreateContactSchema, UpdateContactSchema } from '../dtos/contact.dto'
 
 export const ContactsController = {
-  async getAll(req: Request, res: Response) {
+  async getAll(_req: Request, res: Response) {
     const contacts = await ContactsService.findAll()
     res.json({ data: contacts, total: contacts.length })
   },
