@@ -21,8 +21,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())        
 
-app.use('/auth', authRouter)           
-app.use('/contacts', contactsRouter)
+app.use('/api/auth', authRouter)
+app.use('/api/contacts', contactsRouter)
 
 app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', service: 'finflow-api', timestamp: new Date().toISOString() })
