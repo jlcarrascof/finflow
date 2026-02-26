@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import type { CreateContactDto, UpdateContactDto } from '../dtos/contact.dto'
 
-const prisma = new PrismaClient()
+import { prisma } from '../lib/prisma'  // ← importar el singleton
 
 export const ContactsService = {
   async findAll() {
