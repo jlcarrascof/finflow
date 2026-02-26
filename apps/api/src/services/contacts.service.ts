@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client'
 import type { CreateContactDto, UpdateContactDto } from '../dtos/contact.dto'
-
-import { prisma } from '../lib/prisma'  // ← importar el singleton
+import { prisma } from '../lib/prisma'
 
 export const ContactsService = {
   async findAll() {
@@ -13,6 +11,11 @@ export const ContactsService = {
   async findById(id: number) {
     return prisma.contact.findUnique({
       where: { id },
+      include: {
+        invoices: {
+          select: { id: true, number: true, status: true, total: true }
+        }
+      }
     })
   },
 
