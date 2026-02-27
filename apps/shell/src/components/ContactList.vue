@@ -43,7 +43,6 @@ onMounted(() => {
       >
         <strong>{{ contact.name }}</strong>
         — {{ contact.email }}
-        <span class="badge">{{ contact.type }}</span>
       </li>
     </ul>
   </div>
