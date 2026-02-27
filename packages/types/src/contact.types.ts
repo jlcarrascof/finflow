@@ -3,7 +3,8 @@ export interface Contact {
   name: string
   email: string
   phone?: string
-  type: 'client' | 'supplier'
+  address?:  string   
+  taxId?:    string   
   createdAt: string
   updatedAt: string
 }
@@ -12,7 +13,8 @@ export interface CreateContactDto {
   name: string
   email: string
   phone?: string
-  type: 'client' | 'supplier'
+  address?: string
+  taxId?: string
 }
 
 export interface UpdateContactDto extends Partial<CreateContactDto> {}

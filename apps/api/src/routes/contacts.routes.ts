@@ -1,41 +1,15 @@
-import { Router, Request, Response } from 'express'
+import { Router } from 'express'
+import { ContactsController } from '../controllers/contacts.controller'
+import { authGuard } from '../middlewares/auth.guard'
 
 const router: Router = Router()
 
-interface Contact {
-  id: number
-  name: string
-  email: string
-  phone?: string
-  type: 'client' | 'supplier'
-  createdAt: string
-  updatedAt: string
-}
-
-const mockContacts: Contact[] = [
-  {
-    id: 1,
-    name: 'Empresa Demo S.A.',
-    email: 'demo@empresa.com',
-    phone: '+58 412 555 0001',
-    type: 'client',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: 2,
-    name: 'Proveedor Global C.A.',
-    email: 'contacto@proveedor.com',
-    phone: '+58 414 555 0002',
-    type: 'supplier',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-]
-
-router.get('/', (_req: Request, res: Response) => {
-  res.json(mockContacts)
-})
+router.get('/',     authGuard, ContactsController.getAll)
+router.get('/:id',  authGuard, ContactsController.getById)
+router.post('/',    authGuard, ContactsController.create)
+router.put('/:id',  authGuard, ContactsController.update)
+router.delete('/:id', authGuard, ContactsController.remove)
 
 export default router
+
 
