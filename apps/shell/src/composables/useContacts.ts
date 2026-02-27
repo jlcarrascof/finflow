@@ -9,16 +9,16 @@ export function useContacts() {
   const error    = ref<ApiError | null>(null)
 
   // ── Computed ───────────────────────────────────────────────────────────────
-  const hasError  = computed(() => error.value !== null)
-  const isEmpty   = computed(() => contacts.value.length === 0)
+  const hasError = computed(() => error.value !== null)
+  const isEmpty  = computed(() => contacts.value.length === 0)
 
   // ── GET /contacts ──────────────────────────────────────────────────────────
   async function fetchContacts(): Promise<void> {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.get<Contact[]>('/contacts')
-      contacts.value = data
+      const { data } = await api.get<{ data: Contact[]; total: number }>('/contacts')
+      contacts.value = data.data  // ← backend devuelve { data: [...], total: N }
     } catch (err) {
       error.value = err as ApiError
     } finally {
@@ -31,9 +31,9 @@ export function useContacts() {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.post<Contact>('/contacts', payload)
-      contacts.value.push(data)
-      return data
+      const { data } = await api.post<{ data: Contact }>('/contacts', payload)
+      contacts.value.push(data.data)  // ← backend devuelve { data: {...} }
+      return data.data
     } catch (err) {
       error.value = err as ApiError
       return null
@@ -47,10 +47,10 @@ export function useContacts() {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.put<Contact>(`/contacts/${id}`, payload)
+      const { data } = await api.put<{ data: Contact }>(`/contacts/${id}`, payload)
       const index = contacts.value.findIndex(c => c.id === id)
-      if (index !== -1) contacts.value[index] = data
-      return data
+      if (index !== -1) contacts.value[index] = data.data  // ← backend devuelve { data: {...} }
+      return data.data
     } catch (err) {
       error.value = err as ApiError
       return null
@@ -76,17 +76,15 @@ export function useContacts() {
   }
 
   return {
-    // estado
     contacts,
     loading,
     error,
-    // computed
     hasError,
     isEmpty,
-    // métodos
     fetchContacts,
     createContact,
     updateContact,
     deleteContact,
   }
 }
+
