@@ -2,8 +2,12 @@ import express, { Application, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { Prisma } from '@prisma/client'
+import authRouter     from './routes/auth.routes'
 import contactsRouter from './routes/contacts.routes'
-import authRouter from './routes/auth.routes'
+import itemsRouter    from './routes/items.routes'
+import expensesRouter from './routes/expenses.routes'
+import paymentsRouter from './routes/payments.routes'
+import invoicesRouter from './routes/invoices.routes'
 
 const app: Application = express()
 const PORT = process.env.PORT || 3000
@@ -29,6 +33,10 @@ app.use(cookieParser())
 // ── Rutas ─────────────────────────────────────────────
 app.use('/api/auth',     authRouter)
 app.use('/api/contacts', contactsRouter)
+app.use('/api/items',    itemsRouter)
+app.use('/api/expenses', expensesRouter)
+app.use('/api/payments', paymentsRouter)
+app.use('/api/invoices', invoicesRouter)
 
 // ── Health check ──────────────────────────────────────
 app.get('/api/health', (_req: Request, res: Response) => {
