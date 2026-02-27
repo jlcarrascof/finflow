@@ -43,6 +43,7 @@ onMounted(() => {
       >
         <strong>{{ contact.name }}</strong>
         — {{ contact.email }}
+        <span v-if="contact.taxId" class="badge">{{ contact.taxId }}</span>
       </li>
     </ul>
   </div>
