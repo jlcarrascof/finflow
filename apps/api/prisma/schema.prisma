@@ -19,7 +19,7 @@ enum Role {
 
 enum InvoiceStatus {
   draft
-  sent
+  issued
   paid
   void
 }
@@ -27,7 +27,7 @@ enum InvoiceStatus {
 enum ExpenseStatus {
   pending
   approved
-  rejected
+  void
 }
 
 // ─── Modelos ──────────────────────────────────────────
@@ -75,12 +75,14 @@ model Invoice {
   id         Int           @id @default(autoincrement())
   number     String        @unique
   status     InvoiceStatus @default(draft)
-  issueDate  DateTime      @default(now())
+  issueDate  DateTime?
   dueDate    DateTime?
   subtotal   Decimal       @db.Decimal(10, 2) @default(0)
   tax        Decimal       @db.Decimal(10, 2) @default(0)
   total      Decimal       @db.Decimal(10, 2) @default(0)
   notes      String?
+  voidReason String?
+  voidedAt   DateTime?
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 
@@ -115,6 +117,7 @@ model Expense {
   category    String
   status      ExpenseStatus @default(pending)
   date        DateTime      @default(now())
+  voidReason  String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
@@ -133,3 +136,4 @@ model Payment {
   invoiceId Int
   invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
+
