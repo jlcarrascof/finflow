@@ -50,10 +50,10 @@ export function useItems() {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.put<Item>(`/items/${id}`, payload)
+      const { data } = await api.put<{ data: Item }>(`/items/${id}`, payload)
       const index = items.value.findIndex(i => i.id === id)
-      if (index !== -1) items.value[index] = data
-      return data
+      if (index !== -1) items.value[index] = data.data // Actualizamos con el item real
+      return data.data
     } catch (err) {
       error.value = err as ApiError
       return null
