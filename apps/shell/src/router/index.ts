@@ -16,6 +16,26 @@ const router = createRouter({
       component: () => import('@/views/ContactsView.vue'),
       meta: { requiresAuth: true },
     },
+    // ── NUEVAS RUTAS AGREGADAS ──────────────────────────
+    {
+      path: '/items',
+      name: 'items',
+      component: () => import('@/views/ItemsView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/expenses',
+      name: 'expenses',
+      component: () => import('@/views/ExpensesView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/invoices',
+      name: 'invoices',
+      component: () => import('@/views/InvoicesView.vue'),
+      meta: { requiresAuth: true },
+    },
+    // ────────────────────────────────────────────────────
     {
       // Redirige cualquier ruta desconocida al home
       path: '/:pathMatch(.*)*',
