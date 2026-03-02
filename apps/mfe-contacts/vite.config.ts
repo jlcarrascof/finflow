@@ -20,6 +20,10 @@ export default defineConfig({
     port: 5001, // Le asignamos un puerto fijo y distinto a la Shell (5000)
     strictPort: true,
   },
+  preview: { 
+    port: 5001,
+    strictPort: true,
+  },
   build: {
     target: 'esnext',
     minify: false,
