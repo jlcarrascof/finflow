@@ -11,5 +11,3 @@ router.put('/:id',  authGuard, ContactsController.update)
 router.delete('/:id', authGuard, ContactsController.remove)
 
 export default router
-
-
