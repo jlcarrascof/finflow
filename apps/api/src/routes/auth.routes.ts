@@ -8,6 +8,56 @@ const router: Router = Router()
 // Duración de la cookie en ms (7 días)
 const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000
 
+/**
+ * @openapi
+ * /api/auth/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     description: Autentica al usuario y devuelve los tokens de acceso.
+ *     tags: [Autenticación]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *     responses:
+ *       200:
+ *         description: Login exitoso
+ *       401:
+ *         description: Credenciales inválidas
+ *
+ * /api/auth/refresh:
+ *   post:
+ *     summary: Refrescar token
+ *     description: Renueva el accessToken usando la cookie httpOnly.
+ *     tags: [Autenticación]
+ *     responses:
+ *       200:
+ *         description: Token renovado con éxito
+ *       401:
+ *         description: Refresh token inválido o expirado
+ *
+ * /api/auth/logout:
+ *   post:
+ *     summary: Cerrar sesión
+ *     description: Elimina la cookie del refresh token.
+ *     tags: [Autenticación]
+ *     responses:
+ *       200:
+ *         description: Sesión cerrada correctamente
+ */
+
 // POST /auth/login
 router.post('/login', async (req: Request, res: Response) => {
   try {
