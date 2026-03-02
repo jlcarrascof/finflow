@@ -24,15 +24,16 @@ export function useInvoices() {
   )
 
   // Facturas vencidas: para dashboard o alertas
+  // Nota: Asegúrate de que 'overdue' se agregue a tus tipos en un futuro si lo vas a usar
   const overdueInvoices = computed(() =>
-    invoices.value.filter(inv => inv.status === 'overdue')
+    invoices.value.filter(inv => inv.status === 'overdue' as any)
   )
 
-  // Total pendiente de cobro (issued + partial + overdue)
+  // Total pendiente de cobro
   const totalOutstanding = computed(() =>
     invoices.value
-      .filter(inv => ['issued', 'partial', 'overdue'].includes(inv.status))
-      .reduce((sum, inv) => sum + inv.total, 0)
+      .filter(inv => ['issued', 'partial', 'overdue'].includes(inv.status as string))
+      .reduce((sum, inv) => sum + Number(inv.total), 0)
   )
 
   // ── GET /invoices ──────────────────────────────────────────────────────────
@@ -40,8 +41,9 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.get<Invoice[]>('/invoices')
-      invoices.value = data
+      // ✅ Corrección del wrapper { data: [], total }
+      const { data } = await api.get<{ data: Invoice[]; total: number }>('/invoices')
+      invoices.value = data.data
     } catch (err) {
       error.value = err as ApiError
     } finally {
@@ -54,8 +56,9 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.get<Invoice>(`/invoices/${id}`)
-      return data
+      // ✅ Corrección del wrapper
+      const { data } = await api.get<{ data: Invoice }>(`/invoices/${id}`)
+      return data.data
     } catch (err) {
       error.value = err as ApiError
       return null
@@ -69,9 +72,10 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.post<Invoice>('/invoices', payload)
-      invoices.value.push(data)
-      return data
+      // ✅ Corrección del wrapper
+      const { data } = await api.post<{ data: Invoice }>('/invoices', payload)
+      invoices.value.push(data.data)
+      return data.data
     } catch (err) {
       error.value = err as ApiError
       return null
@@ -81,16 +85,15 @@ export function useInvoices() {
   }
 
   // ── PATCH /invoices/:id/status ─────────────────────────────────────────────
-  // Cambia el estado de una factura: draft → issued → paid, etc.
-  // Una factura 'issued' NO se edita — solo se cambia su estado o se anula
   async function updateInvoiceStatus(id: number, status: InvoiceStatus): Promise<Invoice | null> {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.patch<Invoice>(`/invoices/${id}/status`, { status })
+      // ✅ Corrección del wrapper
+      const { data } = await api.patch<{ data: Invoice }>(`/invoices/${id}/status`, { status })
       const index = invoices.value.findIndex(inv => inv.id === id)
-      if (index !== -1) invoices.value[index] = data
-      return data
+      if (index !== -1) invoices.value[index] = data.data
+      return data.data
     } catch (err) {
       error.value = err as ApiError
       return null
@@ -100,16 +103,15 @@ export function useInvoices() {
   }
 
   // ── POST /invoices/:id/void ────────────────────────────────────────────────
-  // Anula una factura — NUNCA se elimina, queda en BD con status 'void'
-  // voidReason es obligatorio para auditoría fiscal
   async function voidInvoice(id: number, payload: VoidInvoiceDto): Promise<Invoice | null> {
     loading.value = true
     error.value   = null
     try {
-      const { data } = await api.post<Invoice>(`/invoices/${id}/void`, payload)
+      // ✅ Corrección del wrapper
+      const { data } = await api.post<{ data: Invoice }>(`/invoices/${id}/void`, payload)
       const index = invoices.value.findIndex(inv => inv.id === id)
-      if (index !== -1) invoices.value[index] = data
-      return data
+      if (index !== -1) invoices.value[index] = data.data
+      return data.data
     } catch (err) {
       error.value = err as ApiError
       return null
@@ -119,17 +121,14 @@ export function useInvoices() {
   }
 
   return {
-    // estado
     invoices,
     loading,
     error,
-    // computed
     hasError,
     isEmpty,
     activeInvoices,
     overdueInvoices,
     totalOutstanding,
-    // métodos
     fetchInvoices,
     fetchInvoiceById,
     createInvoice,

@@ -1,7 +1,10 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { Prisma } from '@prisma/client'
+import reportsRouter from './routes/reports.routes'
 import authRouter     from './routes/auth.routes'
 import contactsRouter from './routes/contacts.routes'
 import itemsRouter    from './routes/items.routes'
@@ -30,6 +33,35 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+// ── Configuración de Swagger ──────────────────────────
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'FinFlow API',
+      version: '1.0.0',
+      description: 'Documentación oficial de la API REST de FinFlow',
+    },
+    servers: [
+      { url: `http://localhost:${PORT}` }
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [{ bearerAuth: [] }], // Aplica JWT globalmente por defecto
+  },
+  apis: ['./src/routes/*.ts'], // Le decimos a Swagger dónde leer los comentarios
+}
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions)
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
 // ── Rutas ─────────────────────────────────────────────
 app.use('/api/auth',     authRouter)
 app.use('/api/contacts', contactsRouter)
@@ -37,6 +69,7 @@ app.use('/api/items',    itemsRouter)
 app.use('/api/expenses', expensesRouter)
 app.use('/api/payments', paymentsRouter)
 app.use('/api/invoices', invoicesRouter)
+app.use('/api/reports', reportsRouter)
 
 // ── Health check ──────────────────────────────────────
 app.get('/api/health', (_req: Request, res: Response) => {
