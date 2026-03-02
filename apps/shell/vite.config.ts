@@ -10,9 +10,10 @@ export default defineConfig({
     tailwindcss(),
     federation({
       name: 'shell',
-      // Aquí mapearemos los MFEs remotos a medida que los vayamos creando
-      remotes: {},
-      // Compartimos las librerías core para que no se descarguen múltiples veces
+      remotes: {
+        // Le decimos a la Shell dónde vive el manifiesto de Contactos
+        remote_contacts: 'http://localhost:5001/assets/remoteEntry.js'
+      },
       shared: ['vue', 'pinia', 'vue-router']
     })
   ],
