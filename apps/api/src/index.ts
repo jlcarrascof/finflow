@@ -2,6 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { Prisma } from '@prisma/client'
+import reportsRouter from './routes/reports.routes'
 import authRouter     from './routes/auth.routes'
 import contactsRouter from './routes/contacts.routes'
 import itemsRouter    from './routes/items.routes'
@@ -37,6 +38,7 @@ app.use('/api/items',    itemsRouter)
 app.use('/api/expenses', expensesRouter)
 app.use('/api/payments', paymentsRouter)
 app.use('/api/invoices', invoicesRouter)
+app.use('/api/reports', reportsRouter)
 
 // ── Health check ──────────────────────────────────────
 app.get('/api/health', (_req: Request, res: Response) => {
