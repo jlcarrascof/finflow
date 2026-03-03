@@ -18,28 +18,29 @@ services:
       timeout: 5s
       retries: 5
       
-  api:
-    build:
-      context: .                        # ← CAMBIA: era ./apps/api, ahora raíz del monorepo
-      dockerfile: apps/api/Dockerfile   # ← CAMBIA: ruta explícita al Dockerfile
-    container_name: finflow-api
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      JWT_SECRET: ${JWT_SECRET}
-    depends_on:
-      db:
-        condition: service_healthy
+  # ── COMENTADO PARA DESARROLLO LOCAL ──
+  # api:
+  #   build:
+  #     context: .
+  #     dockerfile: apps/api/Dockerfile
+  #   container_name: finflow-api
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NODE_ENV: production
+  #     PORT: 3000
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USER: ${DB_USER}
+  #     DB_PASSWORD: ${DB_PASSWORD}
+  #     DB_NAME: ${DB_NAME}
+  #     JWT_SECRET: ${JWT_SECRET}
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
 
-  # shell:   ← comentado hasta crear apps/shell/Dockerfile
+  # shell:
   #   build:
   #     context: ./apps/shell
   #     dockerfile: Dockerfile
