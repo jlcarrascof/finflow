@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import federation from '@originjs/vite-plugin-federation'
+import { resolve } from 'path' // ← NUEVO: Importación necesaria para el alias
 
 export default defineConfig({
   plugins: [
@@ -16,6 +17,12 @@ export default defineConfig({
       shared: ['vue', 'pinia', 'vue-router']
     })
   ],
+  // 👇 NUEVO: Bloque resolve para el alias @ 👇
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+    },
+  },
   server: {
     port: 5001, // Le asignamos un puerto fijo y distinto a la Shell (5000)
     strictPort: true,
