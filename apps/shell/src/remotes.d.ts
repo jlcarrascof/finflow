@@ -7,3 +7,5 @@ declare module 'remote_expenses/App';
 declare module 'remote_items/App';
 // 👇 EL JEFE FINAL 👇
 declare module 'remote_invoices/App';
+// 👇 LA JOYA DE LA CORONA 👇
+declare module 'remote_dashboard/App';
