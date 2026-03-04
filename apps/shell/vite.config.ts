@@ -16,7 +16,9 @@ export default defineConfig({
         // 👇 NUEVO: Le enseñamos a la Shell dónde vive Gastos 👇
         remote_expenses: 'http://localhost:5002/assets/remoteEntry.js',
         // 👇 NUEVO VECINO 👇
-        remote_items: 'http://localhost:5003/assets/remoteEntry.js'
+        remote_items: 'http://localhost:5003/assets/remoteEntry.js',
+        // 👇 EL JEFE FINAL 👇
+        remote_invoices: 'http://localhost:5004/assets/remoteEntry.js'
       },
       shared: ['vue', 'pinia', 'vue-router']
     })
