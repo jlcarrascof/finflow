@@ -130,6 +130,12 @@ importers:
       '@finflow/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@originjs/vite-plugin-federation':
+        specifier: ^1.4.1
+        version: 1.4.1
+      '@tailwindcss/vite':
+        specifier: ^4.2.1
+        version: 4.2.1(vite@7.3.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0))
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.13
