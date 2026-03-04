@@ -46,11 +46,11 @@ const chartSeries = computed(() => {
 
 <template>
   <div class="w-full">
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center mb-8">
       <h2 class="text-2xl font-bold text-gray-800">Resumen Financiero</h2>
       <button 
         @click="fetchSummary" 
-        class="text-sm bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition"
+        class="text-sm bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition font-medium"
       >
         🔄 Actualizar
       </button>
@@ -65,43 +65,46 @@ const chartSeries = computed(() => {
       <p>{{ error?.message }}</p>
     </div>
 
-    <div v-else-if="summary" class="space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-green-500">
-          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Ingresos Totales</p>
-          <p class="text-2xl font-black text-gray-800">${{ summary.totalRevenue.toFixed(2) }}</p>
+    <div v-else-if="summary" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-green-500 flex flex-col justify-center">
+          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Ingresos Totales</p>
+          <p class="text-3xl font-black text-gray-800">${{ summary.totalRevenue.toFixed(2) }}</p>
         </div>
-        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-red-500">
-          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Gastos Totales</p>
-          <p class="text-2xl font-black text-gray-800">${{ summary.totalExpenses.toFixed(2) }}</p>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-red-500 flex flex-col justify-center">
+          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Gastos Totales</p>
+          <p class="text-3xl font-black text-gray-800">${{ summary.totalExpenses.toFixed(2) }}</p>
         </div>
-        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-yellow-500">
-          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Facturas Pendientes</p>
-          <p class="text-2xl font-black text-gray-800">{{ summary.pendingInvoices }}</p>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-yellow-500 flex flex-col justify-center">
+          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Facturas Pendientes</p>
+          <p class="text-3xl font-black text-gray-800">{{ summary.pendingInvoices }}</p>
         </div>
-        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-gray-400">
-          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Borradores</p>
-          <p class="text-2xl font-black text-gray-800">{{ summary.draftInvoices }}</p>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-gray-400 flex flex-col justify-center">
+          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Borradores</p>
+          <p class="text-3xl font-black text-gray-800">{{ summary.draftInvoices }}</p>
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6 text-center">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col items-center justify-center min-h-[320px]">
+        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 text-center w-full">
           Balance de Flujo de Caja
         </h3>
-        <div class="flex justify-center">
+        <div class="flex justify-center items-center w-full flex-grow">
           <VueApexCharts
             v-if="summary.totalRevenue > 0 || summary.totalExpenses > 0"
             type="donut"
-            width="400"
+            width="100%"
+            height="320"
             :options="chartOptions"
             :series="chartSeries"
           />
-          <div v-else class="py-12 text-gray-400 italic text-sm">
+          <div v-else class="py-12 text-gray-400 italic text-sm text-center">
             No hay datos suficientes de ingresos o gastos para graficar.
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
