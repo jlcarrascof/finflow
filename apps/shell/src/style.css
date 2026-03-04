@@ -6,3 +6,5 @@
 @source "../../mfe-items/src";
 /* 👇 EL JEFE FINAL 👇 */
 @source "../../mfe-invoices/src";
+/* 👇 Esta línea es la que hace la magia 👇 */
+@source "../../mfe-dashboard/src";
