@@ -9,7 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.25"
+    "apexcharts": "^5.10.1",
+    "axios": "^1.13.5",
+    "vue": "^3.5.25",
+    "vue3-apexcharts": "^1.11.1"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
