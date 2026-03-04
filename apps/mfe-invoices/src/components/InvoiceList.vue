@@ -73,7 +73,7 @@ function getClientName(invoice: any) {
               {{ invoice.number }}
             </td>
             <td class="px-4 py-4 font-medium text-gray-800">
-              {{ invoice.contact?.name || `ID: ${invoice.contactId}` }}
+              {{ getClientName(invoice) }}
             </td>
             <td class="px-4 py-4">
               <div class="flex flex-col">
