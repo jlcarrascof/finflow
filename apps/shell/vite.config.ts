@@ -12,7 +12,9 @@ export default defineConfig({
       name: 'shell',
       remotes: {
         // Le decimos a la Shell dónde vive el manifiesto de Contactos
-        remote_contacts: 'http://localhost:5001/assets/remoteEntry.js'
+        remote_contacts: 'http://localhost:5001/assets/remoteEntry.js',
+        // 👇 NUEVO: Le enseñamos a la Shell dónde vive Gastos 👇
+        remote_expenses: 'http://localhost:5002/assets/remoteEntry.js'
       },
       shared: ['vue', 'pinia', 'vue-router']
     })
