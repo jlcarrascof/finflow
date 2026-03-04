@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import AppHeader from '@/components/AppHeader.vue'
-import ExpenseList from '@/components/ExpenseList.vue'
+  import { defineAsyncComponent } from 'vue'
+  import AppHeader from '@/components/AppHeader.vue'
+
+  // Importamos el MFE remoto de Gastos
+  const RemoteExpenses = defineAsyncComponent(() => import('remote_expenses/App'))
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-50">
     <AppHeader />
     <main class="max-w-4xl mx-auto px-6 py-8">
-      <ExpenseList />
+      
+      <RemoteExpenses />
+
     </main>
   </div>
 </template>
