@@ -10,13 +10,20 @@ const router = createRouter({
       component: () => import('@/views/LoginView.vue'),
       meta: { requiresAuth: false },
     },
+    // 👇 NUEVO REY: EL DASHBOARD EN LA RAÍZ
     {
       path: '/',
-      name: 'home',
+      name: 'dashboard',
+      component: () => import('@/views/DashboardView.vue'),
+      meta: { requiresAuth: true },
+    },
+    // 👇 CONTACTOS SE MUDA A SU PROPIA RUTA
+    {
+      path: '/contacts',
+      name: 'contacts',
       component: () => import('@/views/ContactsView.vue'),
       meta: { requiresAuth: true },
     },
-    // ── NUEVAS RUTAS AGREGADAS ──────────────────────────
     {
       path: '/items',
       name: 'items',
@@ -35,9 +42,8 @@ const router = createRouter({
       component: () => import('@/views/InvoicesView.vue'),
       meta: { requiresAuth: true },
     },
-    // ────────────────────────────────────────────────────
     {
-      // Redirige cualquier ruta desconocida al home
+      // Redirige cualquier ruta desconocida al dashboard
       path: '/:pathMatch(.*)*',
       redirect: '/',
     },
@@ -52,9 +58,9 @@ router.beforeEach((to) => {
     return { name: 'login' }
   }
 
-  // Si ya está autenticado y va al login, redirigir al home
+  // 👇 ACTUALIZADO: Si ya está autenticado y va al login, redirigir al dashboard
   if (to.name === 'login' && authStore.isAuthenticated) {
-    return { name: 'home' }
+    return { name: 'dashboard' }
   }
 })
 
