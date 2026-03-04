@@ -2,6 +2,7 @@
 import { onMounted, computed } from 'vue'
 import { useDashboard } from '@/composables/useDashboard'
 import VueApexCharts from 'vue3-apexcharts'
+import type { ApexOptions } from 'apexcharts' // 👈 1. Importamos el pase VIP de TypeScript
 
 const { summary, loading, error, fetchSummary } = useDashboard()
 
@@ -10,14 +11,15 @@ onMounted(() => {
 })
 
 // Configuración del gráfico de Dona (Donut)
-const chartOptions = computed(() => {
+// 👇 2. Le decimos explícitamente a TypeScript que esto es un objeto de tipo ApexOptions
+const chartOptions = computed<ApexOptions>(() => {
   return {
     chart: { 
       type: 'donut',
       fontFamily: 'inherit',
     },
     labels: ['Ingresos (Pagadas)', 'Gastos (Aprobados)'],
-    colors: ['#10B981', '#EF4444'], // Verde Tailwind y Rojo Tailwind
+    colors: ['#10B981', '#EF4444'],
     dataLabels: { 
       enabled: true,
       formatter: function (val: number) {
