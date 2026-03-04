@@ -27,6 +27,11 @@ function getStatusLabel(status: string) {
   }
   return map[status] || status
 }
+
+// 👇 NUEVA FUNCIÓN NINJA 👇
+function getClientName(invoice: any) {
+  return invoice.contact?.name || invoice.contactName || `ID: ${invoice.contactId}`
+}
 </script>
 
 <template>
@@ -67,9 +72,22 @@ function getStatusLabel(status: string) {
             <td class="px-4 py-4 whitespace-nowrap font-mono font-medium text-gray-800">
               {{ invoice.number }}
             </td>
-            <td class="px-4 py-4 font-medium">{{ invoice.contactName || `ID: ${invoice.contactId}` }}</td>
-            <td class="px-4 py-4 text-gray-500">
-              {{ invoice.issueDate ? new Date(invoice.issueDate).toLocaleDateString() : 'N/A' }}
+            <td class="px-4 py-4 font-medium text-gray-800">
+              {{ invoice.contact?.name || `ID: ${invoice.contactId}` }}
+            </td>
+            <td class="px-4 py-4">
+              <div class="flex flex-col">
+                <span v-if="invoice.issueDate" class="text-sm font-medium text-gray-800">
+                  Emitida: {{ new Date(invoice.issueDate).toLocaleDateString() }}
+                </span>
+                <span v-else class="text-sm text-gray-400 italic">
+                  Sin emitir
+                </span>
+                
+                <span v-if="invoice.dueDate" class="text-xs mt-0.5" :class="invoice.issueDate ? 'text-gray-500' : 'text-gray-400'">
+                  Vence: {{ new Date(invoice.dueDate).toLocaleDateString() }}
+                </span>
+              </div>
             </td>
             <td class="px-4 py-4 text-center">
               <span :class="['px-2.5 py-1 rounded-full text-xs font-medium border', getStatusClass(invoice.status)]">
