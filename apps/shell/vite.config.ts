@@ -18,7 +18,9 @@ export default defineConfig({
         // 👇 NUEVO VECINO 👇
         remote_items: 'http://localhost:5003/assets/remoteEntry.js',
         // 👇 EL JEFE FINAL 👇
-        remote_invoices: 'http://localhost:5004/assets/remoteEntry.js'
+        remote_invoices: 'http://localhost:5004/assets/remoteEntry.js',
+        // 👇 LA JOYA DE LA CORONA 👇
+        remote_dashboard: 'http://localhost:5005/assets/remoteEntry.js'
       },
       shared: ['vue', 'pinia', 'vue-router']
     })
