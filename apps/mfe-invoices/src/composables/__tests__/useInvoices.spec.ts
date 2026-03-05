@@ -105,5 +105,61 @@ describe('useInvoices Composable', () => {
       expect(invoices.value.length).toBe(2) // The new invoice was pushed to the array
       expect(api.post).toHaveBeenCalledWith('/invoices', expect.any(Object))
     })
+
+    it('should fetch a single invoice by ID', async () => {
+      const { fetchInvoiceById, loading } = useInvoices()
+      const mockInvoice = { id: 99, number: 'FAC-099' }
+      
+      // Simulamos la respuesta de la API
+      vi.mocked(api.get).mockResolvedValueOnce({ data: { data: mockInvoice } })
+
+      // Act: Disparamos la promesa sin el await todavía
+      const fetchPromise = fetchInvoiceById(99)
+
+      // 🔍 AQUÍ USAMOS LA VARIABLE: Verificamos que cargue mientras espera
+      expect(loading.value).toBe(true)
+
+      // Ahora sí esperamos que termine
+      const result = await fetchPromise
+
+      // Verificamos que devuelva la factura, quite el loading y llame al endpoint
+      expect(result).toEqual(mockInvoice)
+      expect(loading.value).toBe(false)
+      expect(api.get).toHaveBeenCalledWith('/invoices/99')
+    })
+
+    it('should update invoice status and modify the local array', async () => {
+      const { updateInvoiceStatus, invoices } = useInvoices()
+      const updatedInvoice = { id: 1, number: 'FAC-001', status: 'paid' }
+      
+      // Metemos una factura manual en el estado para ver si la función la actualiza
+      invoices.value = [{ id: 1, number: 'FAC-001', status: 'issued' } as any]
+      
+      // Simulamos el PATCH
+      vi.mocked(api.patch).mockResolvedValueOnce({ data: { data: updatedInvoice } })
+
+      const result = await updateInvoiceStatus(1, 'paid' as any)
+
+      // Comprobamos la respuesta de la API y que el estado local haya mutado
+      expect(result).toEqual(updatedInvoice)
+      expect(invoices.value[0]?.status).toBe('paid')
+      expect(api.patch).toHaveBeenCalledWith('/invoices/1/status', { status: 'paid' })
+    })
+
+    it('should void an invoice and update the local array', async () => {
+      const { voidInvoice, invoices } = useInvoices()
+      const voidedInvoice = { id: 2, number: 'FAC-002', status: 'void', voidReason: 'Cancelada por error' }
+      
+      invoices.value = [{ id: 2, number: 'FAC-002', status: 'issued' } as any]
+      
+      // Simulamos el POST de anulación
+      vi.mocked(api.post).mockResolvedValueOnce({ data: { data: voidedInvoice } })
+
+      const result = await voidInvoice(2, { voidReason: 'Cancelada por error' })
+
+      expect(result).toEqual(voidedInvoice)
+      expect(invoices.value[0]?.status).toBe('void')
+      expect(api.post).toHaveBeenCalledWith('/invoices/2/void', { voidReason: 'Cancelada por error' })
+    })
   })
 })
