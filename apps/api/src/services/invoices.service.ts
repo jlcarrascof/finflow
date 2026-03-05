@@ -77,8 +77,8 @@ export const InvoicesService = {
         throw new Error(`INVALID_TRANSITION:${invoice.status}:${newStatus}`)
       }
 
+      // 1. Lógica para emitir
       if (newStatus === 'issued') {
-        // Contar FAC existentes para el correlativo fiscal
         const issuedCount = await tx.invoice.count({
           where: { status: { in: ['issued', 'paid', 'void'] } },
         })
@@ -94,6 +94,7 @@ export const InvoicesService = {
         })
       }
 
+      // 2. Lógica para anular
       if (newStatus === 'void') {
         if (!voidData?.voidReason) throw new Error('VOID_REASON_REQUIRED')
         return tx.invoice.update({
@@ -106,6 +107,14 @@ export const InvoicesService = {
         })
       }
 
+      // 3. NUEVO CANDADO: Lógica estricta para pagos
+      if (newStatus === 'paid') {
+        if (!invoice.issueDate) {
+          throw new Error('CANNOT_PAY_UNISSUED_INVOICE')
+        }
+      }
+
+      // 4. Actualización general
       return tx.invoice.update({
         where:   { id },
         data:    { status: newStatus as any },
