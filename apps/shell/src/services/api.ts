@@ -6,6 +6,13 @@ let _accessToken: string | null = null
 
 export function setApiToken(token: string | null) {
   _accessToken = token
+  
+  // 👇 NUEVO: Sincronizamos con localStorage para que los MFEs lo puedan leer 👇
+  if (token) {
+    localStorage.setItem('access_token', token)
+  } else {
+    localStorage.removeItem('access_token')
+  }
 }
 
 const api: AxiosInstance = axios.create({

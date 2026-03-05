@@ -8,8 +8,10 @@ const { logout } = useAuth()
 const router = useRouter()
 const route  = useRoute()
 
+// 👇 ARRAY ACTUALIZADO: Dashboard en la raíz y Contactos en /contacts
 const links = [
-  { name: 'Contactos', path: '/' },
+  { name: 'Dashboard', path: '/' },
+  { name: 'Contactos', path: '/contacts' },
   { name: 'Items',     path: '/items' },
   { name: 'Gastos',    path: '/expenses' },
   { name: 'Facturas',  path: '/invoices' },

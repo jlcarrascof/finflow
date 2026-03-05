@@ -2,7 +2,6 @@
 import { onMounted } from 'vue'
 import { useItems } from '@/composables/useItems'
 
-// Asumimos que useItems tiene la misma firma que useContacts
 const { items, loading, error, hasError, isEmpty, fetchItems } = useItems()
 
 onMounted(() => {
@@ -11,7 +10,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="item-list">
+  <div class="w-full">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold text-gray-800">Catálogo de Productos</h2>
       <button 

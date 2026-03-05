@@ -13,7 +13,8 @@ export function useAuth() {
       dto
     )
     authStore.setAuth(response.data.tokens, response.data.user)
-    await router.push({ name: 'home' })
+    // 👇 ¡LA BRÚJULA CORREGIDA HACIA EL NUEVO REY!
+    await router.push({ name: 'dashboard' })
   }
 
   async function logout(): Promise<void> {

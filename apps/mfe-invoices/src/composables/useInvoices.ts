@@ -24,7 +24,6 @@ export function useInvoices() {
   )
 
   // Facturas vencidas: para dashboard o alertas
-  // Nota: Asegúrate de que 'overdue' se agregue a tus tipos en un futuro si lo vas a usar
   const overdueInvoices = computed(() =>
     invoices.value.filter(inv => inv.status === 'overdue' as any)
   )
@@ -41,7 +40,6 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      // ✅ Corrección del wrapper { data: [], total }
       const { data } = await api.get<{ data: Invoice[]; total: number }>('/invoices')
       invoices.value = data.data
     } catch (err) {
@@ -56,7 +54,6 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      // ✅ Corrección del wrapper
       const { data } = await api.get<{ data: Invoice }>(`/invoices/${id}`)
       return data.data
     } catch (err) {
@@ -72,7 +69,6 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      // ✅ Corrección del wrapper
       const { data } = await api.post<{ data: Invoice }>('/invoices', payload)
       invoices.value.push(data.data)
       return data.data
@@ -89,7 +85,6 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      // ✅ Corrección del wrapper
       const { data } = await api.patch<{ data: Invoice }>(`/invoices/${id}/status`, { status })
       const index = invoices.value.findIndex(inv => inv.id === id)
       if (index !== -1) invoices.value[index] = data.data
@@ -107,7 +102,6 @@ export function useInvoices() {
     loading.value = true
     error.value   = null
     try {
-      // ✅ Corrección del wrapper
       const { data } = await api.post<{ data: Invoice }>(`/invoices/${id}/void`, payload)
       const index = invoices.value.findIndex(inv => inv.id === id)
       if (index !== -1) invoices.value[index] = data.data

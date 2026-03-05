@@ -3,24 +3,20 @@ import api from '@/services/api'
 import type { Item, CreateItemDto, UpdateItemDto, ApiError } from '@finflow/types'
 
 export function useItems() {
-  // ── Estado reactivo ────────────────────────────────────────────────────────
   const items   = ref<Item[]>([])
   const loading = ref(false)
   const error   = ref<ApiError | null>(null)
 
-  // ── Computed ───────────────────────────────────────────────────────────────
   const hasError = computed(() => error.value !== null)
   const isEmpty  = computed(() => items.value.length === 0)
   const inStock  = computed(() => items.value.filter(i => i.stock > 0))
 
-  // ── GET /items ─────────────────────────────────────────────────────────────
   async function fetchItems(): Promise<void> {
     loading.value = true
     error.value   = null
     try {
-      // Tipamos la respuesta real del backend: { data: T[], total: number }
       const { data } = await api.get<{ data: Item[]; total: number }>('/items')
-      items.value = data.data // Extraemos el array real
+      items.value = data.data 
     } catch (err) {
       error.value = err as ApiError
     } finally {
@@ -28,14 +24,12 @@ export function useItems() {
     }
   }
 
-// ── POST /items ────────────────────────────────────────────────────────────
   async function createItem(payload: CreateItemDto): Promise<Item | null> {
     loading.value = true
     error.value   = null
     try {
-      // Tipamos la respuesta: { data: T }
       const { data } = await api.post<{ data: Item }>('/items', payload)
-      items.value.push(data.data) // Guardamos el item real
+      items.value.push(data.data) 
       return data.data
     } catch (err) {
       error.value = err as ApiError
@@ -45,14 +39,13 @@ export function useItems() {
     }
   }
 
-  // ── PUT /items/:id ─────────────────────────────────────────────────────────
   async function updateItem(id: number, payload: UpdateItemDto): Promise<Item | null> {
     loading.value = true
     error.value   = null
     try {
       const { data } = await api.put<{ data: Item }>(`/items/${id}`, payload)
       const index = items.value.findIndex(i => i.id === id)
-      if (index !== -1) items.value[index] = data.data // Actualizamos con el item real
+      if (index !== -1) items.value[index] = data.data 
       return data.data
     } catch (err) {
       error.value = err as ApiError
@@ -62,7 +55,6 @@ export function useItems() {
     }
   }
 
-  // ── DELETE /items/:id ──────────────────────────────────────────────────────
   async function deleteItem(id: number): Promise<boolean> {
     loading.value = true
     error.value   = null
@@ -78,19 +70,5 @@ export function useItems() {
     }
   }
 
-  return {
-    // estado
-    items,
-    loading,
-    error,
-    // computed
-    hasError,
-    isEmpty,
-    inStock,
-    // métodos
-    fetchItems,
-    createItem,
-    updateItem,
-    deleteItem,
-  }
+  return { items, loading, error, hasError, isEmpty, inStock, fetchItems, createItem, updateItem, deleteItem }
 }

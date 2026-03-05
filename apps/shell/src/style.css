@@ -1,1 +1,10 @@
 @import "tailwindcss";
+/* NUEVO: Le decimos a Tailwind v4 de la Shell que escanee el Microfrontend */
+@source "../../mfe-contacts/src";
+@source "../../mfe-expenses/src";
+/* 👇 NUEVO VECINO 👇 */
+@source "../../mfe-items/src";
+/* 👇 EL JEFE FINAL 👇 */
+@source "../../mfe-invoices/src";
+/* 👇 Esta línea es la que hace la magia 👇 */
+@source "../../mfe-dashboard/src";
