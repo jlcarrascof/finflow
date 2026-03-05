@@ -33,7 +33,7 @@ describe('FinFlow Core E2E Suite', () => {
     cy.contains('Gastos').click()
     
     // 5. Validar que la URL y la vista cambiaron
-    cy.url().should('include', '/gastos') // Ajusta la ruta si es diferente en tu vue-router
+    cy.url().should('include', '/expenses') // Ajusta la ruta si es diferente en tu vue-router
   })
 
   // ─── TEST 2: Flujo Completo de Auditoría y Cierre de Sesión ────────────
