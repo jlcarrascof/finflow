@@ -11,7 +11,16 @@
     <AppHeader />
     <main class="max-w-4xl mx-auto px-6 py-8">
       
-      <RemoteExpenses />
+      <Suspense>
+        <RemoteExpenses />
+
+        <template #fallback>
+          <div class="flex flex-col items-center justify-center py-20">
+            <div class="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-gray-500 font-medium">Cargando módulo de Gastos...</p>
+          </div>
+        </template>
+      </Suspense>
 
     </main>
   </div>
