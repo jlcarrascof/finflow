@@ -1,12 +1,22 @@
 // apps/api/src/routes/auth.routes.ts
 import { Router, Request, Response } from 'express'
+import { z } from 'zod' // 👈 Importamos Zod
 import { authService } from '../services/auth.service'
+import { validateSchema } from '../middlewares/validate' // 👈 Importamos el middleware
 import type { LoginDto } from '@finflow/types'
 
 const router: Router = Router()
 
 // Duración de la cookie en ms (7 días)
 const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000
+
+// 👇 1. Definimos el esquema estricto para el Login
+const loginSchema = z.object({
+  body: z.object({
+    email: z.string().email('Debe ser un correo electrónico válido'),
+    password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
+  }),
+})
 
 /**
  * @openapi
@@ -59,7 +69,8 @@ const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000
  */
 
 // POST /auth/login
-router.post('/login', async (req: Request, res: Response) => {
+// 👇 2. Inyectamos validateSchema justo antes de la función asíncrona
+router.post('/login', validateSchema(loginSchema), async (req: Request, res: Response) => {
   try {
     const dto: LoginDto = req.body
     const { tokens, user, refreshToken } = await authService.login(dto)
