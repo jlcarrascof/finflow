@@ -21,7 +21,7 @@ RUN pnpm install
 COPY packages/types/src/ ./packages/types/src/
 
 # 👇 NUEVO: Generamos el motor de la base de datos (Prisma Client)
-RUN pnpm dlx prisma generate
+RUN pnpm exec prisma generate
 
 # Código fuente del API
 COPY apps/api/src/ ./src/
