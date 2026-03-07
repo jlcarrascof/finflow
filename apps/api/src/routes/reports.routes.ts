@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { ReportsController } from '../controllers/reports.controller'
 import { authGuard } from '../middlewares/auth.guard'
 
-const router = Router()
+const router: Router = Router()
 
 router.use(authGuard)
 

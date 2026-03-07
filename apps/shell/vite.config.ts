@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import federation from '@originjs/vite-plugin-federation'
+import { visualizer } from 'rollup-plugin-visualizer' // 👈 NUEVO: Importamos el plugin
 import { resolve } from 'path'
 
 export default defineConfig({
@@ -23,7 +24,8 @@ export default defineConfig({
         remote_dashboard: 'http://localhost:5005/assets/remoteEntry.js'
       },
       shared: ['vue', 'pinia', 'vue-router']
-    })
+    }),
+    visualizer({ open: true, filename: 'bundle-analysis.html' }) // 👈 NUEVO: Genera y abre el reporte
   ],
   resolve: {
     alias: {
@@ -37,7 +39,7 @@ export default defineConfig({
   build: {
     // Top-level await es necesario para Module Federation en Vite
     target: 'esnext',
-    minify: false,
-    cssCodeSplit: false
+    minify: true, // 👈 CAMBIO CLAVE: Activamos la minificación para producción
+    cssCodeSplit: true // 👈 CAMBIO CLAVE: Que Vite separe el CSS para mejor carga  
   }
 })
